@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-labelledby="giftTicketTitle">
+    <title id="giftTicketTitle">Ticket de regalo QuieroTIX</title>
+    <defs>
+        <linearGradient id="ticketBackground" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="0.58" stop-color="#f7ffe8"/>
+            <stop offset="1" stop-color="#fffde0"/>
+        </linearGradient>
+        <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#15d403"/>
+            <stop offset="0.55" stop-color="#a7f801"/>
+            <stop offset="1" stop-color="#fcef03"/>
+        </linearGradient>
+        <filter id="ticketShadow" x="-10%" y="-15%" width="120%" height="140%">
+            <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#0b6b00" flood-opacity="0.16"/>
+        </filter>
+    </defs>
+
+    <g filter="url(#ticketShadow)">
+        <path d="M56 28H844C859 28 872 41 872 56V158C850 168 850 252 872 262V364C872 379 859 392 844 392H56C41 392 28 379 28 364V262C50 252 50 168 28 158V56C28 41 41 28 56 28Z"
+              fill="url(#ticketBackground)"
+              stroke="#d8f7b0"
+              stroke-width="2"/>
+
+        <path d="M690 46V374" fill="none" stroke="#c8e6a0" stroke-width="3" stroke-dasharray="10 11" stroke-linecap="round"/>
+
+        <rect x="60" y="54" width="148" height="30" rx="15" fill="url(#brandGradient)"/>
+        <text x="134" y="74" text-anchor="middle" fill="#020201" font-family="Arial, Helvetica, sans-serif"
+              font-size="13" font-weight="700" letter-spacing="2">QUIEROTIX</text>
+
+        <text x="62" y="132" fill="#4f6b3a" font-family="Arial, Helvetica, sans-serif"
+              font-size="14" font-weight="700" letter-spacing="4">TICKET DE REGALO</text>
+        <text x="62" y="158" fill="#6f7d62" font-family="Arial, Helvetica, sans-serif"
+              font-size="12" letter-spacing="1">TU CÓDIGO DE LA SUERTE</text>
+        <path d="M62 182H220" stroke="#d8f7b0" stroke-width="2" stroke-linecap="round"/>
+        <text x="62" y="214" fill="#5f7a4a" font-family="Arial, Helvetica, sans-serif"
+              font-size="11" font-weight="700" letter-spacing="2">SORTEO EN VIVO</text>
+
+        <circle cx="770" cy="142" r="36" fill="#f4ffe0"/>
+        <text x="770" y="154" text-anchor="middle" fill="#0b6b00" font-family="Arial, Helvetica, sans-serif"
+              font-size="32" font-weight="700">?</text>
+
+        <rect x="708" y="193" width="145" height="145" rx="12" fill="#ffffff" stroke="#e4f7c7" stroke-width="1.5"/>
+        <g transform="translate(728 213) scale(5)" shape-rendering="crispEdges">
+            <path d="M0 0h7v1h-7zM9 0h2v1h-2zM14 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM12 1h1v1h-1zM14 1h1v1h-1zM20 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM14 2h1v1h-1zM16 2h3v1h-3zM20 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h1v1h-1zM12 3h1v1h-1zM14 3h1v1h-1zM16 3h3v1h-3zM20 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM11 4h2v1h-2zM14 4h1v1h-1zM16 4h3v1h-3zM20 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM14 5h1v1h-1zM20 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h7v1h-7zM8 7h3v1h-3zM1 8h1v1h-1zM3 8h4v1h-4zM8 8h3v1h-3zM12 8h3v1h-3zM16 8h2v1h-2zM19 8h1v1h-1zM0 9h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM9 9h6v1h-6zM16 9h3v1h-3zM20 9h1v1h-1zM0 10h7v1h-7zM9 10h4v1h-4zM17 10h1v1h-1zM20 10h1v1h-1zM0 11h3v1h-3zM5 11h1v1h-1zM7 11h2v1h-2zM12 11h1v1h-1zM14 11h2v1h-2zM18 11h3v1h-3zM0 12h2v1h-2zM5 12h2v1h-2zM10 12h2v1h-2zM13 12h2v1h-2zM16 12h1v1h-1zM19 12h1v1h-1zM8 13h2v1h-2zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h2v1h-2zM18 13h3v1h-3zM0 14h7v1h-7zM9 14h2v1h-2zM14 14h1v1h-1zM17 14h2v1h-2zM20 14h1v1h-1zM0 15h1v1h-1zM6 15h1v1h-1zM8 15h2v1h-2zM12 15h1v1h-1zM14 15h3v1h-3zM18 15h1v1h-1zM0 16h1v1h-1zM2 16h3v1h-3zM6 16h1v1h-1zM8 16h3v1h-3zM12 16h1v1h-1zM14 16h1v1h-1zM16 16h1v1h-1zM19 16h2v1h-2zM0 17h1v1h-1zM2 17h3v1h-3zM6 17h1v1h-1zM8 17h1v1h-1zM11 17h2v1h-2zM15 17h2v1h-2zM18 17h1v1h-1zM0 18h1v1h-1zM2 18h3v1h-3zM6 18h1v1h-1zM13 18h2v1h-2zM16 18h1v1h-1zM18 18h3v1h-3zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h3v1h-3zM13 19h3v1h-3zM17 19h1v1h-1zM19 19h1v1h-1zM0 20h7v1h-7zM9 20h3v1h-3zM13 20h1v1h-1zM15 20h1v1h-1zM19 20h1v1h-1z"
+                  fill="#0b6b00"/>
+        </g>
+        <text x="780" y="352" text-anchor="middle" fill="#5f7a4a" font-family="Arial, Helvetica, sans-serif"
+              font-size="10" font-weight="700" letter-spacing="2">QUIEROTIX.COM</text>
+    </g>
+</svg>

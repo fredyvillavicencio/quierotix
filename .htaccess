@@ -1,0 +1,35 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Bloquear acceso directo a archivos y directorios sensibles.
+    # Este proyecto se sirve desde la raíz (no desde public/), así que sin
+    # estas reglas .env, storage/ y vendor/ quedarían accesibles por HTTP.
+    <FilesMatch "^(\.env.*|\.git.*|composer\.(json|lock)|package(-lock)?\.json|info\.php|.*cookies.*\.txt)$">
+        Require all denied
+    </FilesMatch>
+
+    RewriteRule ^(app|bootstrap|config|database|node_modules|resources|routes|tests|vendor)(/|$) - [F,L]
+    RewriteRule ^storage/(app/(private|temp)|framework|logs)(/|$) - [F,L]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
