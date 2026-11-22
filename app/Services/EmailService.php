@@ -180,7 +180,7 @@ class EmailService
         // Generar URLs de descarga para cada ticket
         $downloadUrls = [];
         foreach ($tickets as $ticket) {
-            $downloadUrls[] = route('admin.tickets.download.pdf', $ticket->id);
+            $downloadUrls[] = route('tickets.download.pdf', $ticket->codigo);
         }
         
         // URL para descargar todos los PDFs en ZIP

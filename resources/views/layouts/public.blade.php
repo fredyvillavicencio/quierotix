@@ -51,11 +51,17 @@
         }
         .navbar-brand-logo {
             display: block;
-            height: 42px;
+            height: 50px;
             width: auto;
             max-width: 180px;
             object-fit: contain;
         }
+
+        .navbar {
+            --bs-navbar-padding-x: 0;
+            --bs-navbar-padding-y: 0;
+        }
+
         @media (max-width: 575.98px) {
             .navbar-brand-logo { height: 34px; }
         }
@@ -126,6 +132,7 @@
         .time-badge { background: var(--brand-soft-yellow); color: #7a5b00; }
         .event-card .card-title a { color: inherit; }
         .event-card .card-title a:hover { color: var(--brand-link); }
+        .event-card-cta { position: relative; z-index: 2; }
         .detail-hero {
             position: relative;
             border-radius: 22px;

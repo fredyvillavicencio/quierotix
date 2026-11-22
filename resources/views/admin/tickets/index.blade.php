@@ -75,7 +75,7 @@
         }
         
         .search-box {
-            max-width: 300px;
+            max-width: 620px;
         }
         
         .pagination-container {
@@ -264,30 +264,47 @@
                 <!-- Search and Filters -->
                 <div class="row mb-4">
                     <div class="col-md-8">
-                        <form method="GET" action="{{ route('admin.tickets.index') }}" class="input-group search-box">
-                            <span class="input-group-text">
-                                <i class="bi bi-search"></i>
-                            </span>
-                            <input type="text" 
-                                   class="form-control" 
-                                   placeholder="Nombre o apellido" 
-                                   id="searchInput"
-                                   name="search"
-                                   value="{{ $searchTerm ?? '' }}">
-                            <button class="btn btn-outline-primary" type="submit" id="searchButton">
-                                Buscar
-                            </button>
-                            @if(isset($searchTerm) && $searchTerm)
-                                <a href="{{ route('admin.tickets.index') }}" class="btn btn-outline-secondary" type="button">
-                                    Limpiar
-                                </a>
-                            @endif
+                        <form method="GET" action="{{ route('admin.tickets.index') }}" class="search-form">
+                            <div class="input-group search-box">
+                                <span class="input-group-text">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Nombre o apellido"
+                                       id="searchInput"
+                                       name="search"
+                                       value="{{ $searchTerm ?? '' }}">
+                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 240px;">
+                                    <option value="">Todos los eventos</option>
+                                    @foreach($events as $event)
+                                        <option value="{{ $event->id }}" @selected((int) $eventId === $event->id)>
+                                            {{ $event->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button class="btn btn-outline-primary" type="submit" id="searchButton">
+                                    Buscar
+                                </button>
+                                @if((isset($searchTerm) && $searchTerm) || $eventId)
+                                    <a href="{{ route('admin.tickets.index') }}" class="btn btn-outline-secondary" type="button">
+                                        Limpiar
+                                    </a>
+                                @endif
+                            </div>
                         </form>
-                        @if(isset($searchTerm) && $searchTerm)
+                        @if((isset($searchTerm) && $searchTerm) || $eventId)
                             <div class="mt-2">
                                 <small class="text-muted">
                                     <i class="bi bi-info-circle"></i>
-                                    Mostrando resultados para: "<strong>{{ $searchTerm }}</strong>"
+                                    @if($eventId)
+                                        Evento: "<strong>{{ $events->firstWhere('id', $eventId)?->nombre ?? 'Desconocido' }}</strong>"
+                                    @endif
+                                    @if(isset($searchTerm) && $searchTerm)
+                                        @if($eventId) &middot; @endif
+                                        Mostrando resultados para: "<strong>{{ $searchTerm }}</strong>"
+                                    @endif
+                                    - Total: {{ $tickets->total() }} ticket(s)
                                 </small>
                             </div>
                         @endif
@@ -380,7 +397,7 @@
                                                 </a>
                                             -->
 
-                                                <a href="{{ route('admin.tickets.download.pdfadmin', $ticket->id) }}" 
+                                                <a href="{{ route('admin.tickets.download.pdfadmin', $ticket->codigo) }}" 
                                                    class="btn btn-sm btn-secondary" 
                                                    title="Descargar PDF"
                                                    target="_blank">
@@ -392,15 +409,27 @@
                                 @empty
                                     <tr>
                                         <td colspan="8" class="text-center py-4">
-                                            <div class="text-muted">
-                                                <i class="bi bi-ticket-perforated display-4"></i>
-                                                <h5 class="mt-3">No hay tickets generados</h5>
-                                                <p class="mb-0">Los tickets se generan automáticamente al importar participantes</p>
-                                                <a href="{{ route('admin.events.index') }}" class="btn btn-primary mt-3">
-                                                    <i class="bi bi-calendar-event"></i>
-                                                    Ver Eventos para Importar
-                                                </a>
-                                            </div>
+                                            @if((isset($searchTerm) && $searchTerm) || $eventId)
+                                                <div class="text-muted">
+                                                    <i class="bi bi-search display-4"></i>
+                                                    <h5 class="mt-3">No hay tickets que coincidan con los filtros</h5>
+                                                    <p class="mb-0">Prueba con otro apellido o selecciona otro evento</p>
+                                                    <a href="{{ route('admin.tickets.index') }}" class="btn btn-outline-secondary mt-3">
+                                                        <i class="bi bi-x-circle"></i>
+                                                        Limpiar filtros
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="text-muted">
+                                                    <i class="bi bi-ticket-perforated display-4"></i>
+                                                    <h5 class="mt-3">No hay tickets generados</h5>
+                                                    <p class="mb-0">Los tickets se generan automáticamente al importar participantes</p>
+                                                    <a href="{{ route('admin.events.index') }}" class="btn btn-primary mt-3">
+                                                        <i class="bi bi-calendar-event"></i>
+                                                        Ver Eventos para Importar
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforelse
@@ -440,6 +469,16 @@
                 searchInput.setSelectionRange(searchTerm.length, searchTerm.length);
             }
             
+            // Recargar el listado automáticamente al cambiar de evento
+            const eventFilter = document.getElementById('eventFilter');
+            if (eventFilter) {
+                eventFilter.addEventListener('change', function() {
+                    if (this.form) {
+                        this.form.submit();
+                    }
+                });
+            }
+
             // Activar el elemento activo en el sidebar
             const currentPath = window.location.pathname;
             const navLinks = document.querySelectorAll('.sidebar .nav-link');

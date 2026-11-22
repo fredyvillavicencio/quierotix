@@ -252,13 +252,10 @@
 
         <div class="row mb-4">
             <div class="col-md-3">
-                            <form method="POST" action="{{ route('admin.events.generate.pdfs', $event) }}" class="d-grid">
-                                @csrf
-                                <button type="submit" class="btn btn-warning">
-                                    <i class="bi bi-file-pdf"></i>
-                                    Generar PDFs
-                                </button>
-                            </form>
+                            <a href="{{ route('admin.events.purchase.create', $event) }}" class="btn btn-success w-100">
+                                <i class="bi bi-cart-plus"></i>
+                                Crear Compra
+                            </a>
             </div>
             <div class="col-md-3">
                             <form method="POST" action="{{ route('admin.events.send.emails', $event) }}" class="d-grid">

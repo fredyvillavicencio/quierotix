@@ -71,7 +71,7 @@ class TicketDownloadFilenameTest extends TestCase
 
         $this->assertSame($expectedFilename, $ticket->download_file_name);
 
-        $this->get(route('admin.tickets.download.pdf', $ticket))
+        $this->get(route('tickets.download.pdf', $ticket->codigo))
             ->assertOk()
             ->assertDownload($expectedFilename);
 
@@ -87,7 +87,7 @@ class TicketDownloadFilenameTest extends TestCase
 
         $expectedFilename = "ticket_F{$participant->id}{$ticket->id}.pdf";
 
-        $this->get(route('admin.tickets.download.pdf', $ticket))
+        $this->get(route('tickets.download.pdf', $ticket->codigo))
             ->assertOk()
             ->assertDownload($expectedFilename);
 
@@ -134,5 +134,80 @@ class TicketDownloadFilenameTest extends TestCase
 
         Storage::disk('local')->delete($pdfPaths);
         @unlink($zipPath);
+    }
+
+    public function test_ticket_download_url_uses_code_and_not_the_admin_id_path(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $ticket = $this->createTicket($event, $participant);
+        $this->storePdf($ticket);
+
+        $url = route('tickets.download.pdf', $ticket->codigo);
+
+        $this->assertSame(url('/tickets/'.$ticket->codigo.'/download-pdf'), $url);
+        $this->assertStringNotContainsString('/admin/', $url);
+        $this->assertStringNotContainsString('/tickets/'.$ticket->id.'/download-pdf', $url);
+    }
+
+    public function test_ticket_download_resolves_the_ticket_from_its_code(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $ticket = $this->createTicket($event, $participant);
+        $pdfPath = $this->storePdf($ticket);
+
+        $this->get(url('/tickets/'.$ticket->codigo.'/download-pdf'))
+            ->assertOk()
+            ->assertDownload($ticket->download_file_name);
+
+        Storage::disk('local')->delete($pdfPath);
+    }
+
+    public function test_legacy_id_based_download_url_is_not_available(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $ticket = $this->createTicket($event, $participant);
+        $this->storePdf($ticket);
+
+        $this->get(url('/admin/tickets/'.$ticket->id.'/download-pdf'))->assertNotFound();
+    }
+
+    public function test_email_download_buttons_use_the_same_ticket_label_as_the_purchase_page(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $backstageTicket = $this->createTicket($event, $participant, 'Backstage', 115);
+        $vipTicket = $this->createTicket($event, $participant, 'VIP', 1);
+
+        $tickets = $participant->tickets()->orderBy('id')->get();
+
+        $html = view('emails.email', [
+            'participant' => $participant,
+            'event' => $event,
+            'tickets' => $tickets,
+            'downloadUrls' => $tickets
+                ->map(fn (Ticket $ticket): string => route('tickets.download.pdf', $ticket->codigo))
+                ->all(),
+            'allPdfsUrl' => route('admin.participants.download.pdfs', $participant),
+        ])->render();
+
+        $this->assertStringContainsString('Descargar '.$backstageTicket->download_label, $html);
+        $this->assertStringContainsString('Descargar '.$vipTicket->download_label, $html);
+        $this->assertStringNotContainsString('Descargar Ticket 1', $html);
+        $this->assertStringNotContainsString('Descargar Ticket 2', $html);
+    }
+
+    public function test_admin_ticket_download_url_uses_code(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $ticket = $this->createTicket($event, $participant);
+
+        $this->assertSame(
+            url('/admin/tickets/'.$ticket->codigo.'/download-pdf-admin'),
+            route('admin.tickets.download.pdfadmin', $ticket->codigo)
+        );
     }
 }

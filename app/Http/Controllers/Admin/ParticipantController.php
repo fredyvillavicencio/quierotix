@@ -17,14 +17,17 @@ class ParticipantController extends Controller
      */
     public function index(Request $request)
     {
+        $searchTerm = $request->input('search');
+        $eventId = $request->filled('event_id') ? (int) $request->input('event_id') : null;
+
         // Construir la consulta base
         $query = Participant::with('event')
             ->withCount('tickets')  // Agregar conteo de tickets
+            ->when($eventId, fn ($q) => $q->where('event_id', $eventId))
             ->orderBy('created_at', 'desc');
 
         // Aplicar búsqueda si existe
-        if ($request->has('search') && ! empty($request->search)) {
-            $searchTerm = $request->search;
+        if (! empty($searchTerm)) {
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('nombre', 'LIKE', "%{$searchTerm}%")
                     ->orWhere('apellido', 'LIKE', "%{$searchTerm}%")
@@ -32,25 +35,47 @@ class ParticipantController extends Controller
             });
         }
 
-        // Paginar resultados
-        $participants = $query->paginate(25);
+        // Paginar resultados conservando los filtros en los enlaces
+        $participants = $query->paginate(25)->withQueryString();
 
-        // Obtener estadísticas para las tarjetas
-        $totalParticipants = Participant::count();
-        $totalTickets = DB::table('tickets')->count();
+        // Obtener estadísticas para las tarjetas (basadas en la misma consulta)
+        $statsQuery = Participant::query()
+            ->when($eventId, fn ($q) => $q->where('event_id', $eventId));
+
+        if (! empty($searchTerm)) {
+            $statsQuery->where(function ($q) use ($searchTerm) {
+                $q->where('nombre', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('apellido', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('email', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        $totalParticipants = $statsQuery->count();
+        $totalTickets = DB::table('tickets')
+            ->when($eventId, fn ($q) => $q->where('event_id', $eventId))
+            ->count();
+
+        // Expresión compatible con MySQL y SQLite para contar los PDFs almacenados
+        $pdfLengthExpression = DB::connection()->getDriverName() === 'sqlite'
+            ? 'SUM(CASE WHEN json_valid(pdf_paths) THEN json_array_length(pdf_paths) ELSE 0 END) as total_pdfs'
+            : 'SUM(CASE WHEN JSON_VALID(pdf_paths) THEN JSON_LENGTH(pdf_paths) ELSE 0 END) as total_pdfs';
+
         $totalPDFs = DB::table('participants')
-            ->select(DB::raw('SUM(JSON_LENGTH(pdf_paths)) as total_pdfs'))
+            ->when($eventId, fn ($q) => $q->where('event_id', $eventId))
+            ->select(DB::raw($pdfLengthExpression))
             ->first()->total_pdfs ?? 0;
 
-        // Pasar el término de búsqueda a la vista
-        $searchTerm = $request->search ?? '';
+        // Obtener el listado de eventos para el filtro
+        $events = Event::orderBy('nombre')->get(['id', 'nombre']);
 
         return view('admin.participants.index', compact(
             'participants',
             'totalParticipants',
             'totalTickets',
             'totalPDFs',
-            'searchTerm'
+            'searchTerm',
+            'events',
+            'eventId'
         ));
     }
 
@@ -314,7 +339,7 @@ class ParticipantController extends Controller
         // Generar URLs de descarga para cada ticket
         $downloadUrls = [];
         foreach ($participant->tickets as $ticket) {
-            $downloadUrls[] = route('admin.tickets.download.pdf', $ticket->id);
+            $downloadUrls[] = route('tickets.download.pdf', $ticket->codigo);
         }
 
         // URL para descargar todos los PDFs en ZIP
@@ -349,7 +374,7 @@ class ParticipantController extends Controller
         // Generar URLs de descarga para cada ticket
         $downloadUrls = [];
         foreach ($participant->tickets as $ticket) {
-            $downloadUrls[] = route('admin.tickets.download.pdf', $ticket->id);
+            $downloadUrls[] = route('tickets.download.pdf', $ticket->codigo);
         }
 
         // URL para descargar todos los PDFs en ZIP

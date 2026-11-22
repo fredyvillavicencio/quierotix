@@ -65,6 +65,12 @@ class PublicTicketPurchaseTest extends TestCase
         foreach (array_chunk($rows, 50) as $chunk) {
             DB::table('tickets')->insert($chunk);
         }
+
+        foreach ($participant->tickets()->get() as $ticket) {
+            DB::table('tickets')
+                ->where('id', $ticket->id)
+                ->update(['codigo' => $ticket->buildTicketCode()]);
+        }
     }
 
     private function fillEvent(Event $event): Participant

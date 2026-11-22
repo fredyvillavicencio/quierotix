@@ -57,15 +57,11 @@
                                         <i class="bi bi-geo-alt me-1"></i>{{ \Illuminate\Support\Str::limit($event->direccion, 80) }}
                                     </p>
                                 @endif
-                                <div class="mt-auto pt-3 d-flex align-items-center justify-content-between border-top">
-                                    <!--
-                                    <span class="small text-muted">
-                                        <i class="bi bi-people me-1"></i>{{ number_format($event->participants_count) }}
-                                        {{ $event->participants_count == 1 ? 'participante' : 'participantes' }}
-                                    </span>
-                                    -->
-                                    <span class="small text-muted">&nbsp;</span>
-                                    <span class="fw-semibold text-brand small">Comprar tickets <i class="bi bi-arrow-right"></i></span>
+                                <div class="mt-auto pt-3 border-top">
+                                    <a href="{{ route('events.public.purchase.create', $event) }}"
+                                       class="btn btn-brand w-100 py-2 fw-semibold event-card-cta">
+                                        <i class="bi bi-ticket-perforated-fill me-2"></i>Comprar tickets
+                                    </a>
                                 </div>
                             </div>
                         </article>

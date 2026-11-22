@@ -75,7 +75,7 @@
         }
         
         .search-box {
-            max-width: 300px;
+            max-width: 620px;
         }
         
         .pagination-container {
@@ -318,24 +318,40 @@
                                        placeholder="Nombre apellido o email..." 
                                        value="{{ $searchTerm ?? '' }}"
                                        autocomplete="off">
+                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 240px;">
+                                    <option value="">Todos los eventos</option>
+                                    @foreach($events as $event)
+                                        <option value="{{ $event->id }}" @selected((int) $eventId === $event->id)>
+                                            {{ $event->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 <button class="btn btn-outline-secondary" type="submit" id="searchButton">
                                     Buscar
                                 </button>
-                                @if(!empty($searchTerm))
-                                <a href="{{ route('admin.participants.index') }}" class="btn btn-outline-danger" title="Limpiar búsqueda">
+                                @if(!empty($searchTerm) || $eventId)
+                                <a href="{{ route('admin.participants.index') }}" class="btn btn-outline-danger" title="Limpiar filtros">
                                     <i class="bi bi-x-circle"></i>
                                 </a>
                                 @endif
                             </div>
                         </form>
                         
-                        @if(!empty($searchTerm))
+                        @if(!empty($searchTerm) || $eventId)
                         <div class="mt-2">
                             <small class="text-muted">
                                 <i class="bi bi-info-circle"></i>
-                                Buscando: "<strong>{{ $searchTerm }}</strong>"
+                                @if($eventId)
+                                    Evento: "<strong>{{ $events->firstWhere('id', $eventId)?->nombre ?? 'Desconocido' }}</strong>"
+                                @endif
+                                @if(!empty($searchTerm))
+                                    @if($eventId) &middot; @endif
+                                    Buscando: "<strong>{{ $searchTerm }}</strong>"
+                                @endif
                                 @if($participants->total() > 0)
                                     - Encontrados: {{ $participants->total() }} participante(s)
+                                @else
+                                    - Sin resultados
                                 @endif
                             </small>
                         </div>
@@ -434,15 +450,27 @@
                                 @empty
                                     <tr>
                                         <td colspan="8" class="text-center py-4">
-                                            <div class="text-muted">
-                                                <i class="bi bi-people display-4"></i>
-                                                <h5 class="mt-3">No hay participantes registrados</h5>
-                                                <p class="mb-0">Los participantes se importan desde archivos CSV</p>
-                                                <a href="{{ route('admin.events.index') }}" class="btn btn-primary mt-3">
-                                                    <i class="bi bi-calendar-event"></i>
-                                                    Ver Eventos para Importar
-                                                </a>
-                                            </div>
+                                            @if(!empty($searchTerm) || $eventId)
+                                                <div class="text-muted">
+                                                    <i class="bi bi-search display-4"></i>
+                                                    <h5 class="mt-3">No hay participantes que coincidan con los filtros</h5>
+                                                    <p class="mb-0">Prueba con otro apellido o selecciona otro evento</p>
+                                                    <a href="{{ route('admin.participants.index') }}" class="btn btn-outline-secondary mt-3">
+                                                        <i class="bi bi-x-circle"></i>
+                                                        Limpiar filtros
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <div class="text-muted">
+                                                    <i class="bi bi-people display-4"></i>
+                                                    <h5 class="mt-3">No hay participantes registrados</h5>
+                                                    <p class="mb-0">Los participantes se importan desde archivos CSV</p>
+                                                    <a href="{{ route('admin.events.index') }}" class="btn btn-primary mt-3">
+                                                        <i class="bi bi-calendar-event"></i>
+                                                        Ver Eventos para Importar
+                                                    </a>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforelse
@@ -516,12 +544,28 @@
             const searchInput = document.getElementById('searchInput');
             const searchButton = document.getElementById('searchButton');
             
+            const eventFilter = document.getElementById('eventFilter');
+
+            // Recargar el listado automáticamente al cambiar de evento
+            if (eventFilter) {
+                eventFilter.addEventListener('change', function() {
+                    if (searchForm) {
+                        searchForm.submit();
+                    }
+                });
+            }
+
             // Enviar formulario al hacer clic en buscar
             if (searchButton) {
                 searchButton.addEventListener('click', function(e) {
-                    if (!searchInput.value.trim()) {
+                    const hasSearch = searchInput ? searchInput.value.trim() !== '' : false;
+                    const hasEvent = eventFilter ? eventFilter.value !== '' : false;
+
+                    if (!hasSearch && !hasEvent) {
                         e.preventDefault();
-                        searchInput.focus();
+                        if (searchInput) {
+                            searchInput.focus();
+                        }
                     }
                 });
             }
@@ -530,7 +574,9 @@
             if (searchInput) {
                 searchInput.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {
-                        if (!this.value.trim()) {
+                        const hasEvent = eventFilter ? eventFilter.value !== '' : false;
+
+                        if (!this.value.trim() && !hasEvent) {
                             e.preventDefault();
                             return;
                         }

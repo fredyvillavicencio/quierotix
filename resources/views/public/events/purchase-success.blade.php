@@ -62,7 +62,7 @@
                                     <span class="badge date-badge me-2">{{ $index + 1 }}</span>
                                     <strong>{{ $ticket->download_label }}</strong>
                                 </div>
-                                <a href="{{ route('admin.tickets.download.pdf', $ticket) }}"
+                                <a href="{{ route('tickets.download.pdf', $ticket->codigo) }}"
                                    class="btn btn-outline-brand btn-sm">
                                     <i class="bi bi-download me-1"></i>Descargar PDF
                                 </a>
@@ -76,7 +76,7 @@
                         @if ($participant->tickets->isNotEmpty())
                             <a href="{{ route('admin.participants.download.pdfs', $participant) }}"
                                class="btn btn-brand w-100 mt-3 py-3">
-                                <i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP
+                                <strong><i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP</strong>
                             </a>
                         @endif
                     </div>
@@ -95,7 +95,7 @@
                             <dd class="col-7 text-break">{{ $participant->email }}</dd>
 
                             @if ($participant->carne)
-                                <dt class="col-5">Número ID</dt>
+                                <dt class="col-5">ID</dt>
                                 <dd class="col-7">{{ $participant->carne }}</dd>
                             @endif
 

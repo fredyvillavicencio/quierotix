@@ -17,9 +17,11 @@ class TicketController extends Controller
     public function index(Request $request)
     {
         $searchTerm = $request->input('search');
+        $eventId = $request->filled('event_id') ? (int) $request->input('event_id') : null;
 
         // Construir consulta base
-        $query = Ticket::with(['participant', 'event']);
+        $query = Ticket::with(['participant', 'event'])
+            ->when($eventId, fn ($q) => $q->where('event_id', $eventId));
 
         // Aplicar filtro de búsqueda si existe
         if ($searchTerm) {
@@ -29,29 +31,27 @@ class TicketController extends Controller
             });
         }
 
-        // Obtener tickets con paginación
-        $tickets = $query->orderBy('id', 'asc')->paginate(25);
-
         // Obtener estadísticas para las tarjetas (basadas en la misma consulta)
-        $statsQuery = Ticket::query();
+        $statsQuery = clone $query;
 
-        if ($searchTerm) {
-            $statsQuery->whereHas('participant', function ($q) use ($searchTerm) {
-                $q->where('nombre', 'LIKE', "%{$searchTerm}%")
-                    ->orWhere('apellido', 'LIKE', "%{$searchTerm}%");
-            });
-        }
+        // Obtener tickets con paginación conservando los filtros
+        $tickets = $query->orderBy('id', 'asc')->paginate(25)->withQueryString();
 
         $totalTickets = $statsQuery->count();
         $validatedTickets = $statsQuery->clone()->where('validado', true)->count();
         $pendingTickets = $statsQuery->clone()->where('validado', false)->count();
+
+        // Obtener el listado de eventos para el filtro
+        $events = Event::orderBy('nombre')->get(['id', 'nombre']);
 
         return view('admin.tickets.index', compact(
             'tickets',
             'totalTickets',
             'validatedTickets',
             'pendingTickets',
-            'searchTerm'
+            'searchTerm',
+            'events',
+            'eventId'
         ));
     }
 
@@ -346,10 +346,8 @@ class TicketController extends Controller
     /**
      * Descargar PDF existente para un ticket
      */
-    public function downloadPDF(string $id)
+    public function downloadPDF(Ticket $ticket)
     {
-        $ticket = Ticket::findOrFail($id);
-
         // Validar que el ticket tenga archivo_pdf
         if (empty($ticket->archivo_pdf)) {
             abort(404, 'PDF no generado para este ticket');
