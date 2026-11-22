@@ -63,7 +63,7 @@
 
                         @if ($participant->tickets->count() > 2)
                             <a href="{{ route('admin.participants.download.pdfs', $participant) }}"
-                               class="btn btn-brand w-100 mt-3 py-2 fw-semibold">
+                               class="btn btn-brand w-100 mt-5 py-2 fw-semibold">
                                 <i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP
                             </a>
                         @endif
@@ -93,8 +93,8 @@
                             <dt class="col-5">Lugar</dt>
                             <dd class="col-7">{{ $event->lugar ?: 'Por confirmar' }}</dd>
 
-                             <dt class="col-5">&nbps;</dt>
-                            <dd class="col-7">&nbps;</dd>                           
+                            <dt class="col-5">&nbsp;</dt>
+                            <dd class="col-7">&nbsp;</dd>                           
 
                             <dt class="col-5">Nombre</dt>
                             <dd class="col-7">{{ $participant->full_name }}</dd>

@@ -46,10 +46,10 @@
                         <h1 class="h4 fw-semibold mb-1">Compra tus tickets</h1>
                 <div class="alert alert-light border small mt-1 mb-3">
 
-                                    <i class="bi bi-shield-check me-1 text-brand"></i>
+                                    <i class="bi bi-check me-1 text-brand"></i>
                     Completa tus datos y elige cuántos tickets necesitas.<br>
                     <i class="bi bi-shield-check me-1 text-brand"></i>
-                    Tus datos se usan únicamente para generar y enviar tus entradas.<br>
+                    Tus datos se usan únicamente para generar y enviar tus tickets.<br>
                     <i class="bi bi-envelope-check me-1 text-brand"></i>
                                     Recibirás tus tickets por correo. También podrás descargarlos al finalizar la compra.
                 </div>
