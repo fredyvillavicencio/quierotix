@@ -1,54 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Evento - Sistema de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
-        
-        .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 12px 20px;
-            margin: 2px 0;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-        
-        .sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .page-header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .form-container {
+@extends('layouts.admin')
+
+@section('title', 'Editar Evento')
+
+@push('styles')
+<style>
+.form-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
+            box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
             padding: 30px;
         }
         
@@ -64,8 +23,8 @@
         }
         
         .form-control:focus, .form-select:focus {
-            border-color: #4facfe;
-            box-shadow: 0 0 0 0.2rem rgba(79, 172, 254, 0.25);
+            border-color: var(--brand-start);
+            box-shadow: 0 0 0 0.2rem rgba(21, 212, 3, 0.25);
         }
         
         .required::after {
@@ -80,9 +39,9 @@
         }
         
         .btn-submit {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: var(--brand-gradient);
             border: none;
-            color: white;
+            color: var(--brand-ink);
             padding: 12px 30px;
             border-radius: 8px;
             font-weight: 600;
@@ -91,11 +50,11 @@
         
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+            box-shadow: 0 4px 12px rgba(21, 212, 3, 0.3);
         }
         
         .event-info-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #0b6b00 0%, #15d403 100%);
             color: white;
             border-radius: 10px;
             padding: 20px;
@@ -123,16 +82,10 @@
         .info-value {
             font-weight: 500;
         }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            @include('layouts.sidebar')
+</style>
+@endpush
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+@section('content')
         <!-- Header -->
         <div class="page-header">
             <div class="d-flex justify-content-between align-items-center">
@@ -152,37 +105,9 @@
 
 
                 <!-- Display Session Errors -->
-                @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Error:</strong> {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
-                @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i>
-                        <strong>¡Éxito!</strong> {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
-                @if(session('warning'))
-                    <div class="alert alert-warning alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Advertencia:</strong> {{ session('warning') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
-                @if(session('info'))
-                    <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        <strong>Información:</strong> {{ session('info') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
                 <!-- Validation Errors -->
                 @if($errors->any())
@@ -545,13 +470,12 @@
                     </div>
                 </div>
             </div>
-            </main>
-        </div>
-    </div>
+            
+@endsection
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Form validation
+@push('scripts')
+<script>
+// Form validation
         document.querySelector('form').addEventListener('submit', function(e) {
             const nombre = document.getElementById('nombre').value.trim();
             const fecha = document.getElementById('fecha').value;
@@ -566,23 +490,7 @@
             
             return true;
         });
-
-        // Activar el elemento activo en el sidebar
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.sidebar .nav-link');
-            
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('locations-container');
             const addButton = document.getElementById('add-location');
             const template = document.getElementById('location-row-template');
@@ -610,6 +518,5 @@
                 removeButton.closest('[data-location-row]')?.remove();
             });
         });
-    </script>
-</body>
-</html>
+</script>
+@endpush

@@ -172,7 +172,7 @@
 
 
                                     <div class="col-md-6">
-                                        <label for="locacion" class="form-label">Locación <span class="text-danger">*</span></label>
+                                        <label for="locacion" class="form-label">Compra <span class="text-danger">*</span></label>
                                         <select id="locacion"
                                                 name="locacion"
                                                 class="form-select @error('locacion') is-invalid @enderror"
@@ -193,7 +193,7 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="cantidad" class="form-label">Cantidad de tickets <span class="text-danger">*</span></label>
+                                        <label for="cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
                                         <select id="cantidad"
                                                 name="cantidad"
                                                 class="form-select @error('cantidad') is-invalid @enderror"

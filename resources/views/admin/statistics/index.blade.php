@@ -1,52 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas - Sistema de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
-        
-        .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 12px 20px;
-            margin: 2px 0;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-        
-        .sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .page-header {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
+@extends('layouts.admin')
+
+@section('title', 'Estadísticas')
+
+@push('styles')
+<style>
+.stat-card {
             border-radius: 10px;
             border: none;
             transition: transform 0.3s;
@@ -127,16 +85,10 @@
             height: 100%;
             border-radius: 5px;
         }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            @include('layouts.sidebar')
+</style>
+@endpush
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+@section('content')
                 <!-- Header -->
                 <div class="page-header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -475,8 +427,8 @@
                                                                         height: 100%;
                                                                         background: linear-gradient(
                                                                             135deg,
-                                                                            #43e97b 0%,
-                                                                            #38f9d7 100%
+                                                                            #a7f801 0%,
+                                                                            #fcef03 100%
                                                                         );
                                                                     "
                                                                 ></div>
@@ -556,10 +508,5 @@
     @endif
 
 
-            </main>
-        </div>
-    </div>
-
-
-</body>
-</html>
+            
+@endsection

@@ -1,51 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tickets generados - {{ $event->nombre }} - Sistema de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
+@extends('layouts.admin')
 
-        .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 12px 20px;
-            margin: 2px 0;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
+@section('title', 'Tickets generados - ' . $event->nombre)
 
-        .sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
-            color: #020201;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .success-card,
+@push('styles')
+<style>
+.success-card,
         .purchase-summary {
             background: white;
             border-radius: 10px;
@@ -114,15 +73,10 @@
             color: #020201;
             filter: brightness(1.03);
         }
-    </style>
-</head>
-<body>
+</style>
+@endpush
 
-    <div class="container-fluid">
-        <div class="row">
-            @include('layouts.sidebar')
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+@section('content')
                 <div class="page-header">
                     <div class="d-flex justify-content-between align-items-center gap-3">
                         <div>
@@ -141,13 +95,6 @@
                     </div>
                 </div>
 
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-check-circle-fill me-2"></i>
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
                 <div class="row g-4">
                     <div class="col-lg-7">
@@ -181,8 +128,8 @@
                                         <strong>{{ $ticket->download_label }}</strong>
                                     </div>
                                     <a href="{{ route('tickets.download.pdf', $ticket->codigo) }}"
-                                       class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-download me-1"></i>Descargar PDF
+                                       class="btn btn-brand w-100 py-2 fw-semibold">
+                                        <i class="bi bi-download me-2"></i>Descargar PDF
                                     </a>
                                 </div>
                             @empty
@@ -193,7 +140,7 @@
 
                             @if ($participant->tickets->isNotEmpty())
                                 <a href="{{ route('admin.participants.download.pdfs', $participant) }}"
-                                   class="btn btn-brand w-100 mt-4 py-3 fw-semibold">
+                                   class="btn btn-brand w-100 mt-4 py-2 fw-semibold">
                                     <i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP
                                 </a>
                             @endif
@@ -254,11 +201,5 @@
                         </div>
                     </div>
                 </div>
-            </main>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-
+            
+@endsection

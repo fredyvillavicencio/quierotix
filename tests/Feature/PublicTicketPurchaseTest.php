@@ -405,6 +405,57 @@ class PublicTicketPurchaseTest extends TestCase
             ->assertSeeText('No se encontraron tickets generados');
     }
 
+    public function test_success_page_hides_zip_button_for_a_single_ticket(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->seedTickets($event, $participant, [['Dancefloor', 1]]);
+
+        $signedUrl = URL::temporarySignedRoute(
+            'events.public.purchase.success',
+            now()->addHour(),
+            ['event' => $event->id, 'participant' => $participant->id]
+        );
+
+        $this->get($signedUrl)
+            ->assertOk()
+            ->assertDontSeeText('Descargar todos en ZIP');
+    }
+
+    public function test_success_page_hides_zip_button_for_exactly_two_tickets(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->seedTickets($event, $participant, [['Dancefloor', 1], ['Dancefloor', 2]]);
+
+        $signedUrl = URL::temporarySignedRoute(
+            'events.public.purchase.success',
+            now()->addHour(),
+            ['event' => $event->id, 'participant' => $participant->id]
+        );
+
+        $this->get($signedUrl)
+            ->assertOk()
+            ->assertDontSeeText('Descargar todos en ZIP');
+    }
+
+    public function test_success_page_shows_zip_button_for_more_than_two_tickets(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->seedTickets($event, $participant, [['Dancefloor', 1], ['Dancefloor', 2], ['Dancefloor', 3]]);
+
+        $signedUrl = URL::temporarySignedRoute(
+            'events.public.purchase.success',
+            now()->addHour(),
+            ['event' => $event->id, 'participant' => $participant->id]
+        );
+
+        $this->get($signedUrl)
+            ->assertOk()
+            ->assertSeeText('Descargar todos en ZIP');
+    }
+
     public function test_success_page_shows_ticket_download_label_with_location_initial_and_ids(): void
     {
         $event = $this->createEvent();

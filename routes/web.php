@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Página pública del sorteo de tickets de regalo
-Route::get('/regalos', [GiftController::class, 'index'])->name('gifts.index');
+Route::get('/regalos/seleccionar', [GiftController::class, 'select'])->name('gifts.select');
+Route::match(['get', 'post'], '/regalos', [GiftController::class, 'index'])->name('gifts.index');
 Route::get('/regalos/aleatorio', [GiftController::class, 'randomTicket'])->name('gifts.random');
 
 // Detalle público de un evento (sin autenticación)
@@ -197,7 +198,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

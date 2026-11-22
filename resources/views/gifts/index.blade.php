@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Sorteo de tickets | {{ config('app.name', 'QuieroTIX.com') }}</title>
-    <meta name="description" content="Participa en el sorteo de un ticket de regalo.">
+    <title>Sorteo de {{ $event->nombre }} | {{ config('app.name', 'QuieroTIX.com') }}</title>
+    <meta name="description" content="Participa en el sorteo de un ticket de regalo para {{ $event->nombre }}.">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         :root {
@@ -64,8 +64,11 @@
         .brand-pill {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: .55rem;
-            margin-bottom: 1.4rem;
+            max-width: 100%;
+            margin-top: 1rem;
+            margin-bottom: 20px;
             padding: .55rem 1rem;
             border: 1px solid #d8f7b0;
             border-radius: 999px;
@@ -74,6 +77,8 @@
             font-size: .78rem;
             font-weight: 700;
             letter-spacing: .14em;
+            overflow-wrap: anywhere;
+            text-align: center;
             text-transform: uppercase;
         }
 
@@ -100,7 +105,7 @@
         .ticket-stage {
             position: relative;
             width: min(100%, 900px);
-            margin: clamp(2rem, 5vw, 3.2rem) auto 0;
+            margin: -1.25rem auto 0;
             aspect-ratio: 900 / 420;
             isolation: isolate;
         }
@@ -215,13 +220,6 @@
             transform: none;
         }
 
-        .gift-footnote {
-            margin: 1.35rem 0 0;
-            color: #6f7d62;
-            font-size: .78rem;
-            letter-spacing: .04em;
-        }
-
         @keyframes code-flicker {
             0% { transform: translateY(-1px); opacity: .72; }
             100% { transform: translateY(1px); opacity: 1; }
@@ -245,6 +243,10 @@
 
             .ticket-display {
                 padding: 7% 6%;
+            }
+
+            .ticket-stage {
+                margin-top: -.5rem;
             }
 
             .ticket-display-label {
@@ -275,14 +277,11 @@
 <body>
     <main class="gift-page">
 
-    <!--
-        <div class="brand-pill">
-            <i class="bi bi-ticket-perforated-fill" aria-hidden="true"></i>
-            Sorteo de regalo
-        </div>
-    -->
+        <h1>Tu ticket de la suerte</h1>
 
-        <h1 style="margin-bottom: -40px; position: revative; z-index=100;" >Tu ticket de la suerte</h1>
+        <div class="brand-pill">
+            {{ $event->nombre }} · {{ \Carbon\Carbon::parse($event->fecha)->format('d/m/Y') }}
+        </div>
 
         <div class="ticket-stage" id="ticket-stage">
             <img src="{{ asset('public/images/gift-ticket.svg') }}"
@@ -290,7 +289,7 @@
                  class="ticket-image">
 
             <div class="ticket-display">
-                <span class="ticket-display-label" id="display-label">Ticket ganador</span>
+                <span class="ticket-display-label" id="display-label">Número ganador</span>
                 <span class="ticket-code" id="ticket-code" aria-live="polite">---</span>
             </div>
         </div>
@@ -307,23 +306,18 @@
             const ticketStage = document.getElementById('ticket-stage');
             const ticketCode = document.getElementById('ticket-code');
             const displayLabel = document.getElementById('display-label');
-            const endpoint = @json(route('gifts.random'));
-            const spinDuration = 5000;
+            const endpoint = @json(route('gifts.random', ['event_id' => $event->id]));
+            const spinDuration = 3000;
             const frameInterval = 55;
 
             let isSpinning = false;
 
             const wait = (milliseconds) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
 
-            const createRandomCode = (length) => {
-                const targetLength = Math.max(3, Number(length) || 4);
-                let code = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+            const createRandomNumber = (length = 3) => {
+                const targetLength = Math.max(1, Number(length) || 1);
 
-                for (let index = 1; index < targetLength; index++) {
-                    code += Math.floor(Math.random() * 10);
-                }
-
-                return code;
+                return String(Math.floor(Math.random() * (10 ** targetLength))).padStart(targetLength, '0');
             };
 
             const fetchRandomTicket = async () => {
@@ -337,11 +331,11 @@
 
                 const payload = await response.json().catch(() => ({}));
 
-                if (!response.ok || !payload.code) {
+                if (!response.ok || payload.numero === undefined || payload.numero === null) {
                     throw new Error(payload.message || 'No hay tickets disponibles para sortear.');
                 }
 
-                return String(payload.code).toUpperCase();
+                return String(payload.numero);
             };
 
             spinButton.addEventListener('click', async () => {
@@ -355,28 +349,28 @@
                 ticketStage.classList.add('is-spinning');
                 ticketCode.classList.remove('is-revealed');
                 ticketCode.classList.add('is-spinning');
-                ticketCode.textContent = createRandomCode(4);
-                displayLabel.textContent = 'Buscando ticket';
+                ticketCode.textContent = createRandomNumber(3);
+                displayLabel.textContent = 'Buscando número';
 
-                let targetLength = 4;
+                let targetLength = 3;
 
-                const request = fetchRandomTicket().then((code) => {
-                    targetLength = code.length;
+                const request = fetchRandomTicket().then((numero) => {
+                    targetLength = Math.max(3, numero.length);
 
-                    return code;
+                    return numero;
                 });
 
                 const animationInterval = window.setInterval(() => {
-                    ticketCode.textContent = createRandomCode(targetLength);
+                    ticketCode.textContent = createRandomNumber(targetLength);
                 }, frameInterval);
 
                 try {
-                    const [finalCode] = await Promise.all([request, wait(spinDuration)]);
+                    const [finalNumber] = await Promise.all([request, wait(spinDuration)]);
 
-                    ticketCode.textContent = finalCode;
+                    ticketCode.textContent = finalNumber;
                     ticketCode.classList.remove('is-spinning');
                     ticketCode.classList.add('is-revealed');
-                    displayLabel.textContent = '¡Ticket ganador!';
+                    displayLabel.textContent = '¡Número ganador!';
                 } catch {
                     ticketCode.textContent = '---';
                     ticketCode.classList.remove('is-spinning');

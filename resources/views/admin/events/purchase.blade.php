@@ -1,51 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Compra - {{ $event->nombre }} - Sistema de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
+@extends('layouts.admin')
 
-        .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 12px 20px;
-            margin: 2px 0;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
+@section('title', 'Crear Compra - ' . $event->nombre)
 
-        .sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-
-        .page-header {
-            background: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
-            color: #020201;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .purchase-card,
+@push('styles')
+<style>
+.purchase-card,
         .event-summary {
             background: white;
             border-radius: 10px;
@@ -110,14 +69,10 @@
             color: #020201;
             filter: brightness(1.03);
         }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            @include('layouts.sidebar')
+</style>
+@endpush
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+@section('content')
                 <div class="page-header">
                     <div class="d-flex justify-content-between align-items-center gap-3">
                         <div>
@@ -136,13 +91,6 @@
                     </div>
                 </div>
 
-                @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Error:</strong> {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
 
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
@@ -400,14 +348,12 @@
                         </div>
                     </div>
                 @endif
-            </main>
-        </div>
-    </div>
+            
+@endsection
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
             const locationSelect = document.getElementById('locacion');
             const quantitySelect = document.getElementById('cantidad');
             const unitPriceElement = document.getElementById('precio-unitario');
@@ -472,7 +418,5 @@
             rebuildQuantityOptions(selectedLocationData().available);
             updateTotal();
         });
-    </script>
-</body>
-</html>
-
+</script>
+@endpush

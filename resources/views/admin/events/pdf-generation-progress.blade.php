@@ -7,8 +7,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
+        :root {
+            --brand-start: #15d403;
+            --brand-mid: #a7f801;
+            --brand-end: #fcef03;
+            --brand-ink: #020201;
+            --brand-link: #0b6b00;
+            --brand-link-hover: #064d00;
+            --brand-soft: #f4ffe0;
+            --brand-border: #dcefc2;
+            --brand-gradient: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
+        }
+
         body {
-            background: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
+            background: var(--brand-gradient);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -37,13 +49,13 @@
         }
         
         .progress-title {
-            color: #333;
+            color: var(--brand-ink);
             font-weight: 600;
             margin-bottom: 10px;
         }
         
         .progress-subtitle {
-            color: #666;
+            color: #6b7280;
             font-size: 1.1rem;
         }
         
@@ -114,7 +126,8 @@
             justify-content: space-between;
             margin-bottom: 30px;
             padding: 20px;
-            background: #f8f9fa;
+            background: var(--brand-soft);
+            border: 1px solid var(--brand-border);
             border-radius: 10px;
         }
         
@@ -131,26 +144,26 @@
         }
         
         .stat-label {
-            color: #666;
+            color: #6b7280;
             font-size: 0.9rem;
         }
         
         .progress-message {
-            background: #f8f9fa;
+            background: var(--brand-soft);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 30px;
-            border-left: 4px solid #15d403;
+            border-left: 4px solid var(--brand-start);
         }
         
         .message-text {
-            color: #333;
+            color: var(--brand-ink);
             font-size: 1.1rem;
             margin: 0;
         }
         
         .message-time {
-            color: #888;
+            color: #6b7280;
             font-size: 0.9rem;
             margin-top: 5px;
         }
@@ -193,9 +206,9 @@
         }
         
         .btn-back {
-            background: #6c757d;
-            color: white;
-            border: none;
+            background: #fff;
+            color: var(--brand-link);
+            border: 1px solid var(--brand-border);
             padding: 12px 30px;
             border-radius: 8px;
             font-weight: 600;
@@ -203,13 +216,14 @@
         }
         
         .btn-back:hover {
-            background: #5a6268;
+            background: var(--brand-soft);
+            color: var(--brand-link-hover);
             transform: translateY(-2px);
         }
         
         .btn-refresh {
-            background: #15d403;
-            color: #020201;
+            background: var(--brand-gradient);
+            color: var(--brand-ink);
             border: none;
             padding: 12px 30px;
             border-radius: 8px;
@@ -232,13 +246,13 @@
         }
         
         .status-processing {
-            background: #e3f2fd;
-            color: #1976d2;
+            background: var(--brand-end);
+            color: var(--brand-ink);
         }
         
         .status-completed {
-            background: #e8f5e9;
-            color: #388e3c;
+            background: var(--brand-soft);
+            color: var(--brand-link);
         }
         
         .status-failed {
@@ -249,7 +263,8 @@
         .completion-message {
             text-align: center;
             padding: 30px;
-            background: #e8f5e9;
+            background: var(--brand-soft);
+            border: 1px solid var(--brand-border);
             border-radius: 10px;
             margin-top: 30px;
             display: none;
@@ -257,7 +272,7 @@
         
         .completion-icon {
             font-size: 3rem;
-            color: #388e3c;
+            color: var(--brand-link);
             margin-bottom: 20px;
         }
     </style>

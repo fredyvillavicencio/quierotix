@@ -60,6 +60,21 @@ class TicketDownloadFilenameTest extends TestCase
         return $path;
     }
 
+    private function renderEmail(Event $event, Participant $participant): string
+    {
+        $tickets = $participant->tickets()->orderBy('id')->get();
+
+        return view('emails.email', [
+            'participant' => $participant,
+            'event' => $event,
+            'tickets' => $tickets,
+            'downloadUrls' => $tickets
+                ->map(fn (Ticket $ticket): string => route('tickets.download.pdf', $ticket->codigo))
+                ->all(),
+            'allPdfsUrl' => route('admin.participants.download.pdfs', $participant),
+        ])->render();
+    }
+
     public function test_ticket_download_uses_location_initial_participant_and_ticket_ids(): void
     {
         $event = $this->createEvent();
@@ -197,6 +212,42 @@ class TicketDownloadFilenameTest extends TestCase
         $this->assertStringContainsString('Descargar '.$vipTicket->download_label, $html);
         $this->assertStringNotContainsString('Descargar Ticket 1', $html);
         $this->assertStringNotContainsString('Descargar Ticket 2', $html);
+    }
+
+    public function test_email_hides_zip_button_for_a_single_ticket(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->createTicket($event, $participant, 'Backstage', 1);
+
+        $html = $this->renderEmail($event, $participant);
+
+        $this->assertStringNotContainsString('Descargar todos en ZIP', $html);
+    }
+
+    public function test_email_hides_zip_button_for_exactly_two_tickets(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->createTicket($event, $participant, 'Backstage', 1);
+        $this->createTicket($event, $participant, 'Backstage', 2);
+
+        $html = $this->renderEmail($event, $participant);
+
+        $this->assertStringNotContainsString('Descargar todos en ZIP', $html);
+    }
+
+    public function test_email_shows_zip_button_for_more_than_two_tickets(): void
+    {
+        $event = $this->createEvent();
+        $participant = $this->createParticipant($event);
+        $this->createTicket($event, $participant, 'Backstage', 1);
+        $this->createTicket($event, $participant, 'Backstage', 2);
+        $this->createTicket($event, $participant, 'Backstage', 3);
+
+        $html = $this->renderEmail($event, $participant);
+
+        $this->assertStringContainsString('Descargar todos en ZIP', $html);
     }
 
     public function test_admin_ticket_download_url_uses_code(): void

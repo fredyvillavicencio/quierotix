@@ -1,51 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resumen de Locaciones - {{ $event->nombre }} - Sistema de Tickets</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
-        
-        .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 12px 20px;
-            margin: 2px 0;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-        
-        .sidebar .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .page-header {
-            background: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
-            color: #020201;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .seat-map-container {
+@extends('layouts.admin')
+
+@section('title', 'Resumen de Locaciones - ' . $event->nombre)
+
+@push('styles')
+<style>
+.seat-map-container {
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -56,7 +15,7 @@
         .seat-map-title {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #2c3e50;
+            color: #064d00;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e9ecef;
@@ -118,9 +77,9 @@
         }
         
         .seat-validated {
-            background-color: #198754;
+            background-color: var(--brand-link);
             color: white;
-            border-color: #198754;
+            border-color: var(--brand-link);
         }
         
         .seat-assigned {
@@ -206,7 +165,7 @@
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #15d403;
         }
         
         .stat-card-title {
@@ -218,21 +177,16 @@
         .stat-card-value {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .action-buttons .btn {
-            margin: 2px;
-            min-width: 100px;
+            color: #064d00;
         }
         
         .stage-indicator {
             text-align: center;
             font-weight: bold;
-            color: #2c3e50;
+            color: #064d00;
             margin: 20px 0;
             padding: 10px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #0b6b00 0%, #15d403 100%);
             color: white;
             border-radius: 8px;
         }
@@ -254,7 +208,7 @@
         .location-summary-name {
             font-size: 1.15rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #064d00;
             margin: 0 0 18px;
         }
 
@@ -280,7 +234,7 @@
         }
 
         .location-summary-metric-value {
-            color: #2c3e50;
+            color: #064d00;
             font-size: 1.35rem;
             font-weight: 700;
             line-height: 1.1;
@@ -288,7 +242,7 @@
 
         .location-summary-percentage {
             font-weight: 700;
-            color: #2c3e50;
+            color: #064d00;
         }
 
         .location-progress {
@@ -299,13 +253,13 @@
         }
 
         .location-progress .progress-bar {
-            background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            background: linear-gradient(90deg, #15d403 0%, #a7f801 100%);
             border-radius: 999px;
             transition: width 0.6s ease;
         }
 
         .location-progress-validated .progress-bar {
-            background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%);
+            background: linear-gradient(90deg, #0b6b00 0%, #15d403 100%);
         }
 
         @media (max-width: 768px) {
@@ -333,16 +287,10 @@
                 margin: 0;
             }
         }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            @include('layouts.sidebar')
+</style>
+@endpush
 
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+@section('content')
                 <!-- Header -->
                 <div class="page-header">
                     <div class="d-flex justify-content-between align-items-center">
@@ -429,25 +377,5 @@
                     </div>
                 </div>
 
-            </main>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Activar el elemento activo en el sidebar
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.sidebar .nav-link');
             
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+@endsection

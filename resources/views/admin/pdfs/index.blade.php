@@ -7,9 +7,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
+        :root {
+            --brand-start: #15d403;
+            --brand-mid: #a7f801;
+            --brand-end: #fcef03;
+            --brand-ink: #020201;
+            --brand-link: #0b6b00;
+            --brand-link-hover: #064d00;
+            --brand-soft: #f4ffe0;
+            --brand-border: #dcefc2;
+            --brand-gradient: linear-gradient(135deg, #15d403 0%, #a7f801 55%, #fcef03 100%);
+        }
+
+        body {
+            background-color: var(--brand-soft);
+            color: #1f2937;
+            font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+        }
+
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(180deg, #0b3d0b 0%, #042104 100%);
             color: white;
         }
         
@@ -27,8 +45,9 @@
         }
         
         .sidebar .nav-link.active {
-            background-color: #3498db;
-            color: white;
+            background: var(--brand-gradient);
+            color: var(--brand-ink);
+            font-weight: 600;
         }
         
         .sidebar .nav-link i {
@@ -38,35 +57,38 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
+            background:
+                radial-gradient(circle at 85% 20%, rgba(255, 255, 255, .38), transparent 45%),
+                var(--brand-gradient);
+            color: var(--brand-ink);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 16px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 24px rgba(11, 107, 0, .18);
         }
         
         .table-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
+            box-shadow: 0 10px 24px rgba(31, 41, 55, .08);
             overflow: hidden;
         }
         
         .table th {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
+            background-color: var(--brand-soft);
+            border-bottom: 2px solid var(--brand-border);
             font-weight: 600;
-            color: #495057;
+            color: var(--brand-link);
         }
         
         .badge-sent {
-            background-color: #28a745;
+            background-color: var(--brand-link);
             color: white;
         }
         
         .badge-pending {
-            background-color: #ffc107;
-            color: #212529;
+            background-color: var(--brand-end);
+            color: var(--brand-ink);
         }
         
         .action-buttons .btn {
@@ -79,9 +101,9 @@
         }
         
         .pagination-container {
-            background: #f8f9fa;
+            background: #f8fff2;
             padding: 15px;
-            border-top: 1px solid #dee2e6;
+            border-top: 1px solid var(--brand-border);
         }
         
         .pdf-icon {
@@ -123,8 +145,54 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            background: var(--brand-gradient);
             border-radius: 4px;
+        }
+
+        .btn-primary,
+        .btn-success {
+            background: var(--brand-gradient);
+            border-color: transparent;
+            color: var(--brand-ink);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-success:hover,
+        .btn-success:focus {
+            background: var(--brand-gradient);
+            border-color: transparent;
+            color: var(--brand-ink);
+            filter: brightness(1.03);
+        }
+
+        .btn-info {
+            background: var(--brand-link);
+            border-color: var(--brand-link);
+            color: #fff;
+        }
+
+        .btn-info:hover,
+        .btn-info:focus {
+            background: var(--brand-link-hover);
+            border-color: var(--brand-link-hover);
+            color: #fff;
+        }
+
+        .btn-warning {
+            background: var(--brand-end);
+            border-color: var(--brand-end);
+            color: var(--brand-ink);
+        }
+
+        body a {
+            color: var(--brand-link);
+        }
+
+        body a:hover,
+        body a:focus {
+            color: var(--brand-link-hover);
         }
     </style>
 </head>

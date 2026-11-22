@@ -57,14 +57,10 @@
                         -->
 
                         @forelse ($participant->tickets as $index => $ticket)
-                            <div class="ticket-row d-flex flex-wrap justify-content-between align-items-center gap-2">
-                                <div>
-                                    <span class="badge date-badge me-2">{{ $index + 1 }}</span>
-                                    <strong>{{ $ticket->download_label }}</strong>
-                                </div>
+                            <div class="ticket-row border-0 d-flex flex-wrap justify-content-between align-items-center gap-2" style="padding: .425rem 0;">
                                 <a href="{{ route('tickets.download.pdf', $ticket->codigo) }}"
-                                   class="btn btn-outline-brand btn-sm">
-                                    <i class="bi bi-download me-1"></i>Descargar PDF
+                                   class="btn btn-brand w-100 py-2 fw-semibold">
+                                    <i class="bi bi-download me-2"></i>Descargar {{ $ticket->download_label }}
                                 </a>
                             </div>
                         @empty
@@ -73,10 +69,10 @@
                             </div>
                         @endforelse
 
-                        @if ($participant->tickets->isNotEmpty())
+                        @if ($participant->tickets->count() > 2)
                             <a href="{{ route('admin.participants.download.pdfs', $participant) }}"
-                               class="btn btn-brand w-100 mt-3 py-3">
-                                <strong><i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP</strong>
+                               class="btn btn-brand w-100 mt-3 py-2 fw-semibold">
+                                <i class="bi bi-file-earmark-zip me-2"></i>Descargar todos en ZIP
                             </a>
                         @endif
                     </div>

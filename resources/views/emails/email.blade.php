@@ -97,26 +97,28 @@
                                                         @endphp
                                                         <tr>
                                                         <td align="left" width="100%">
-                                                            <a style="text-decoration:none;color:#ffffff;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#0b6b00;border-radius:9px;" href="{{ $downloadUrl }}" target="_blank">
+                                                            <a style="text-decoration:none;color:#020201;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#a7f801;background-image:linear-gradient(135deg,#15d403 0%,#a7f801 55%,#fcef03 100%);border-radius:9px;" href="{{ $downloadUrl }}" target="_blank">
                                                                 <img src="https://actosdeinvestiduraumg.com/tickets/images/descarga.png" height="15px"> Descargar {{ $downloadLabel }}
                                                             </a>
                                                         </td>
                                                         </tr>
                                                     @endfor
 
-                                                <tr>
-                                                    <td align="left">
-                                                        &nbsp;
-                                                    </td>
-                                                </tr>
+                                                @if (count($tickets) > 2)
+                                                    <tr>
+                                                        <td align="left">
+                                                            &nbsp;
+                                                        </td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td align="left">
-                                                        <a style="text-decoration:none;color:#ffffff;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#0b6b00;border-radius:9px;" href="{{ $allPdfsUrl }}" target="_blank">
-                                                            <img src="https://actosdeinvestiduraumg.com/tickets/images/descarga.png" height="15px"> Descargar todos en ZIP
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td align="left">
+                                                            <a style="text-decoration:none;color:#020201;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#a7f801;background-image:linear-gradient(135deg,#15d403 0%,#a7f801 55%,#fcef03 100%);border-radius:9px;" href="{{ $allPdfsUrl }}" target="_blank">
+                                                                <img src="https://actosdeinvestiduraumg.com/tickets/images/descarga.png" height="15px"> Descargar todos en ZIP
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endif
                                             </tbody></table>
                                     </td>
                                 </tr>
