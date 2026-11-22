@@ -59,19 +59,21 @@
 
                 <!-- Search and Filters -->
                 <div class="row mb-4">
-                    <div class="col-md-8">
+                    <div class="col-12">
                         <form method="GET" action="{{ route('admin.tickets.index') }}" class="search-form">
-                            <div class="input-group search-box">
-                                <span class="input-group-text">
-                                    <i class="bi bi-search"></i>
-                                </span>
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="Nombre o apellido"
-                                       id="searchInput"
-                                       name="search"
-                                       value="{{ $searchTerm ?? '' }}">
-                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 240px;">
+                            <div class="d-grid gap-2 d-lg-flex">
+                                <div class="input-group flex-grow-1">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Nombre o apellido"
+                                           id="searchInput"
+                                           name="search"
+                                           value="{{ $searchTerm ?? '' }}">
+                                </div>
+                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 360px;">
                                     <option value="">Todos los eventos</option>
                                     @foreach($events as $event)
                                         <option value="{{ $event->id }}" @selected((int) $eventId === $event->id)>
@@ -79,14 +81,16 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <button class="btn btn-outline-primary" type="submit" id="searchButton">
-                                    Buscar
-                                </button>
-                                @if((isset($searchTerm) && $searchTerm) || $eventId)
-                                    <a href="{{ route('admin.tickets.index') }}" class="btn btn-outline-secondary" type="button">
-                                        Limpiar
-                                    </a>
-                                @endif
+                                <div class="d-grid d-sm-flex gap-2">
+                                    <button class="btn btn-outline-primary" type="submit" id="searchButton">
+                                        Buscar
+                                    </button>
+                                    @if((isset($searchTerm) && $searchTerm) || $eventId)
+                                        <a href="{{ route('admin.tickets.index') }}" class="btn btn-outline-secondary" type="button">
+                                            Limpiar
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
                         </form>
                         @if((isset($searchTerm) && $searchTerm) || $eventId)
@@ -194,7 +198,7 @@
                                             -->
 
                                                 <a href="{{ route('admin.tickets.download.pdfadmin', $ticket->codigo) }}" 
-                                                   class="btn btn-sm btn-secondary" 
+                                                   class="btn btn-sm btn-pdf text-white"
                                                    title="Descargar PDF"
                                                    target="_blank">
                                                     <i class="bi bi-file-pdf"></i>

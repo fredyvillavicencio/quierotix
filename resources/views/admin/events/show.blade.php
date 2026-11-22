@@ -164,16 +164,7 @@
                             </a>
             </div>
             <div class="col-md-3">
-                            <form method="POST" action="{{ route('admin.events.send.emails', $event) }}" class="d-grid">
-                                @csrf
-                                <button type="submit" class="btn btn-secondary w-100" onclick="return confirm('¿Estás seguro de que deseas enviar emails a todos los participantes de este evento?')">
-                                    <i class="bi bi-envelope"></i>
-                                    Enviar Emails
-                                </button>
-                            </form>
-            </div>
-            <div class="col-md-3">
-                            <a href="{{ route('admin.events.statistics', $event) }}" class="btn btn-info w-100">
+                            <a href="{{ route('admin.events.statistics', $event) }}" class="btn btn-info w-100 text-white">
                                 <i class="bi bi-graph-up"></i>
                                 Estadísticas
                             </a>

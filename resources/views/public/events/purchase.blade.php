@@ -238,10 +238,20 @@
             <div class="col-lg-5 order-1 order-md-2">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
+                        @php
+                            $mobileCover = $event->imagen_cover_url ?: $event->imagen_url;
+                        @endphp
+
                         @if ($event->imagen_url)
                             <img src="{{ $event->imagen_url }}"
                                  alt="Portada del evento {{ $event->nombre }}"
-                                 class="img-fluid rounded-3 border mb-4">
+                                 class="img-fluid rounded-3 border mb-4 d-none d-md-block">
+                        @endif
+
+                        @if ($mobileCover)
+                            <img src="{{ $mobileCover }}"
+                                 alt="Portada del evento {{ $event->nombre }}"
+                                 class="img-fluid rounded-3 border mb-4 d-md-none">
                         @endif
 
                         <h3 class="h5 fw-semibold">{{ $event->nombre }}</h3>

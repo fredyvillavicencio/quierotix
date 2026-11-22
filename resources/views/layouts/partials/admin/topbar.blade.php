@@ -22,11 +22,6 @@
                     </a>
                 </li>
             @endauth
-            <li>
-                <a class="dropdown-item" href="{{ route('home') }}">
-                    <i class="bi bi-globe2 me-2"></i>Ver sitio público
-                </a>
-            </li>
             @auth
                 <li><hr class="dropdown-divider"></li>
                 <li>

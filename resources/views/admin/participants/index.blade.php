@@ -73,20 +73,22 @@
 
                 <!-- Search and Filters -->
                 <div class="row mb-4">
-                    <div class="col-md-8">
+                    <div class="col-12">
                         <form method="GET" action="{{ route('admin.participants.index') }}" class="search-form">
-                            <div class="input-group search-box">
-                                <span class="input-group-text">
-                                    <i class="bi bi-search"></i>
-                                </span>
-                                <input type="text" 
-                                       class="form-control" 
-                                       name="search" 
-                                       id="searchInput" 
-                                       placeholder="Nombre apellido o email..." 
-                                       value="{{ $searchTerm ?? '' }}"
-                                       autocomplete="off">
-                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 240px;">
+                            <div class="d-grid gap-2 d-lg-flex">
+                                <div class="input-group flex-grow-1">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-search"></i>
+                                    </span>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="search"
+                                           id="searchInput"
+                                           placeholder="Nombre apellido o email..."
+                                           value="{{ $searchTerm ?? '' }}"
+                                           autocomplete="off">
+                                </div>
+                                <select name="event_id" id="eventFilter" class="form-select" style="max-width: 360px;">
                                     <option value="">Todos los eventos</option>
                                     @foreach($events as $event)
                                         <option value="{{ $event->id }}" @selected((int) $eventId === $event->id)>
@@ -94,14 +96,16 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <button class="btn btn-outline-secondary" type="submit" id="searchButton">
-                                    Buscar
-                                </button>
-                                @if(!empty($searchTerm) || $eventId)
-                                <a href="{{ route('admin.participants.index') }}" class="btn btn-outline-danger" title="Limpiar filtros">
-                                    <i class="bi bi-x-circle"></i>
-                                </a>
-                                @endif
+                                <div class="d-grid d-sm-flex gap-2">
+                                    <button class="btn btn-outline-secondary" type="submit" id="searchButton">
+                                        Buscar
+                                    </button>
+                                    @if(!empty($searchTerm) || $eventId)
+                                    <a href="{{ route('admin.participants.index') }}" class="btn btn-outline-danger" title="Limpiar filtros">
+                                        <i class="bi bi-x-circle"></i>
+                                    </a>
+                                    @endif
+                                </div>
                             </div>
                         </form>
                         
@@ -126,27 +130,6 @@
                         @endif
                     </div>
 
-                    <!--
-                    <div class="col-md-4 text-end">
-                        <div class="btn-group">
-                            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-filter"></i>
-                                Filtros
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Todos</a></li>
-                                <li><a class="dropdown-item" href="#">Con Tickets</a></li>
-                                <li><a class="dropdown-item" href="#">Sin Tickets</a></li>
-                                <li><a class="dropdown-item" href="#">Por Evento</a></li>
-                            </ul>
-                        </div>
-                        <button class="btn btn-outline-secondary ms-2">
-                            <i class="bi bi-download"></i>
-                            Exportar
-                        </button>
-                    </div>
-                    -->
-
                 </div>
 
                 <!-- Participants Table -->
@@ -159,7 +142,6 @@
                                     <th>Participante</th>
                                     <th>Evento</th>
                                     <th>Tickets</th>
-                                    <th>PDFs</th>
                                     <th>Email</th>
                                     <th width="150" class="text-center">Acciones</th>
                                 </tr>
@@ -182,13 +164,8 @@
                                             {{ \Carbon\Carbon::parse($participant->event->fecha)->format('d/m/Y') }} - {{ $participant->event->hora }}
                                         </td>
                                         <td>
-                                            <span class="badge bg-warning">
-                                                {{ $participant->tickets_count }}
-                                            </span>
-                                        </td>
-                                        <td>
                                             <span class="badge bg-success">
-                                                {{ is_array($participant->pdf_paths) ? count($participant->pdf_paths) : 0 }}
+                                                {{ $participant->tickets_count }}
                                             </span>
                                         </td>
                                         <td>
@@ -199,7 +176,7 @@
                                                     @endif
                                         </td>
                                         <td class="text-center action-buttons">
-                                            <a href="{{ route('admin.participants.download.pdfsadmin', $participant->id) }}" class="btn btn-sm btn-secondary" title="PDFs">
+                                            <a href="{{ route('admin.participants.download.pdfsadmin', $participant->id) }}" class="btn btn-sm btn-pdf text-white" title="PDFs">
                                                 <i class="bi bi-file-pdf"></i>
                                             </a>
                                             

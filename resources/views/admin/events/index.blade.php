@@ -58,8 +58,6 @@
                             <th>Hora</th>
                             <th>Participantes</th>
                             <th>Tickets</th>
-                            <th>PDFs</th>
-                            <th>Emails</th>
                             <th>Estado</th>
                             <th width="200" class="text-center">Acciones</th>
                         </tr>
@@ -80,40 +78,10 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="badge bg-info">
+                                    <span class="badge bg-success">
                                         {{ $event->tickets_count ?? 0 }}
                                     </span>
                                 </td>
-                                <td>
-                                    
-                                @php
-    
-                                $bg_pdf = match(true) {
-                                    $event->pdfs_generated == $event->tickets_count => "bg-success", 
-                                    $event->pdfs_generated == 0 => "bg-danger",
-                                    default => "bg-warning"
-                                }
-    
-                                @endphp                                    
-                                    <span class="badge {{ $bg_pdf }}">
-                                        {{ $event->pdfs_generated ?? 0 }}
-                                    </span>
-                                </td>
-                                <td>
-                                @php
-    
-                                $bg_email = match(true) {
-                                    $event->emails_sent == $event->participants_count => "bg-success", 
-                                    $event->emails_sent == 0 => "bg-danger",
-                                    default => "bg-warning"
-                                }
-    
-                                @endphp                                    
-                                    <span class="badge {{ $bg_email }}">
-                                        {{ $event->emails_sent ?? 0 }}
-                                    </span>
-                                </td>
-                                
                                 <td>
                                     @php
                                         $eventDate = \Carbon\Carbon::parse($event->fecha . ' ' . $event->hora);
@@ -140,15 +108,6 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     
-                                    <!--
-                                    <form action="{{ route('admin.events.destroy', $event) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este evento?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                    -->
                                 </td>
                             </tr>
                         @empty

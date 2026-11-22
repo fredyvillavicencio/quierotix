@@ -39,10 +39,6 @@
         </nav>
 
         <div class="admin-nav-footer mt-auto pt-3">
-            <a class="nav-link" href="{{ route('home') }}">
-                <i class="bi bi-globe2"></i>
-                <span>Ver sitio público</span>
-            </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="nav-link btn btn-link w-100 text-start">

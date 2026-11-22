@@ -150,6 +150,23 @@ class PublicTicketPurchaseTest extends TestCase
             ->assertSee('value="7"', false);
     }
 
+    public function test_purchase_page_shows_cover_image_only_on_mobile(): void
+    {
+        $event = $this->createEvent([
+            'imagen' => 'images/events/main.jpg',
+            'imagen_cover' => 'images/events/cover.jpg',
+        ]);
+
+        $this->get(route('events.public.purchase.create', $event))
+            ->assertOk()
+            ->assertSeeInOrder([
+                'images/events/main.jpg',
+                'd-none d-md-block',
+                'images/events/cover.jpg',
+                'd-md-none',
+            ], false);
+    }
+
     public function test_public_purchase_creates_tickets_pdfs_and_redirects_to_success(): void
     {
         $event = $this->createEvent();

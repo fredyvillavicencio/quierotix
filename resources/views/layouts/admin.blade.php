@@ -443,6 +443,18 @@
             min-width: 80px;
         }
 
+        .btn-pdf {
+            --bs-btn-bg: #b30b00;
+            --bs-btn-border-color: #b30b00;
+            --bs-btn-color: #fff;
+            --bs-btn-hover-bg: #8f0900;
+            --bs-btn-hover-border-color: #8f0900;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-active-bg: #8f0900;
+            --bs-btn-active-border-color: #8f0900;
+            --bs-btn-active-color: #fff;
+        }
+
         .search-box {
             max-width: 300px;
         }
@@ -618,7 +630,6 @@
 
             <footer class="admin-footer">
                 <span>&copy; {{ date('Y') }} {{ config('app.name', 'QuieroTIX.com') }}</span>
-                <a href="{{ route('home') }}" class="text-decoration-none">Ver sitio público</a>
             </footer>
         </div>
     </div>
