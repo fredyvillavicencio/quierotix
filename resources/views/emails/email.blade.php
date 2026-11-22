@@ -14,10 +14,10 @@
                                                 <table width="100%" cellpadding="0" cellspacing="0">
                                                     <tbody><tr>
                                                         <td align="center">
-                                                            <table bgcolor="#OF2037" width="40%" cellpadding="0" cellspacing="15" style="font-size:20px">
+                                                            <table bgcolor="#FFFFFF" width="40%" cellpadding="0" cellspacing="15" style="font-size:20px">
                                                                 <tbody><tr>
                                                                     <td align="center">
-                                                                        <img align="absbottom" src="https://actosdeinvestiduraumg.com/tickets/images/umg.png" height="50px" class="CToWUd" data-bit="iit">
+                                                                        <img align="absbottom" src="https://quierotix.com/images/logo_quierotix.png" height="60px" class="CToWUd" data-bit="iit">
                                                                     </td>
                                                                 </tr>
                                                             </tbody></table>
@@ -98,7 +98,7 @@
                                                         <tr>
                                                         <td align="left" width="100%">
                                                             <a style="text-decoration:none;color:#020201;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#a7f801;background-image:linear-gradient(135deg,#15d403 0%,#a7f801 55%,#fcef03 100%);border-radius:9px;" href="{{ $downloadUrl }}" target="_blank">
-                                                                <img src="https://actosdeinvestiduraumg.com/tickets/images/descarga.png" height="15px"> Descargar {{ $downloadLabel }}
+                                                                <img src="https://quierotix.com/images/descarga.png" height="15px"> Descargar {{ $downloadLabel }}
                                                             </a>
                                                         </td>
                                                         </tr>
@@ -114,7 +114,7 @@
                                                     <tr>
                                                         <td align="left">
                                                             <a style="text-decoration:none;color:#020201;font-weight:bold;display:block;padding:15px;width:100%;text-align:center;background-color:#a7f801;background-image:linear-gradient(135deg,#15d403 0%,#a7f801 55%,#fcef03 100%);border-radius:9px;" href="{{ $allPdfsUrl }}" target="_blank">
-                                                                <img src="https://actosdeinvestiduraumg.com/tickets/images/descarga.png" height="15px"> Descargar todos en ZIP
+                                                                <img src="https://quierotix.com/images/descarga.png" height="15px"> Descargar todos en ZIP
                                                             </a>
                                                         </td>
                                                     </tr>

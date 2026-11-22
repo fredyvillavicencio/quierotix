@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'QuieroTIX.com'))</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/icono_quierotix.png') }}">
     <meta name="description" content="@yield('meta_description', 'Consulta los próximos eventos y toda su información: fecha, hora y ubicación.')">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -63,7 +64,7 @@
         }
 
         @media (max-width: 575.98px) {
-            .navbar-brand-logo { height: 34px; }
+            .navbar-brand-logo { height: 45px; }
         }
         .btn-brand {
             background: var(--brand-gradient);
@@ -211,10 +212,12 @@
                      alt="QuieroTIX.com"
                      class="navbar-brand-logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar"
-                    aria-controls="publicNavbar" aria-expanded="false" aria-label="Mostrar navegación">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            {{--
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar"
+                        aria-controls="publicNavbar" aria-expanded="false" aria-label="Mostrar navegación">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            --}}
 
         </div>
     </nav>
