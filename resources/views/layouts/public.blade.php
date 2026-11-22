@@ -148,7 +148,6 @@
             position: relative;
             width: 100%;
             color: #fff;
-            background: linear-gradient(180deg, rgba(17, 24, 39, 0) 0%, rgba(17, 24, 39, .78) 100%);
         }
         .detail-list dt { font-weight: 600; color: #4b5563; }
         .detail-list dd { margin-bottom: 0; border-bottom: 1px solid #eef0f4; padding-bottom: .65rem; }

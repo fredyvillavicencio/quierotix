@@ -81,7 +81,7 @@
                                 <tbody>
                                     <tr>
                                     <td align="left" style="font-weight:bold;color:#383838;font-size:16px">
-                                        {{ $participant->nombre }} {{ $participant->apellido }}, descarga tus tickets:
+                                        {{ $participant->nombre }} {{ $participant->apellido }}, descarga tus Tickets:
                                     </td>
                                 </tr>
                                 <tr>

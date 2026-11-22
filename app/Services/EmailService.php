@@ -117,7 +117,7 @@ class EmailService
 
         // Crear el email SIN adjuntos (solo links de descarga)
         $sendSmtpEmail = new SendSmtpEmail([
-            'subject' => "Acto Solemne de Investidura Profesional - UMG 2026",
+            'subject' => "Descarga tus tickets de QuieroTIX.com",
             'sender' => [
                 'name' => config('mail.from.name', 'Sistema de Tickets'),
                 'email' => config('mail.from.address', 'noreply@tickets.com'),
