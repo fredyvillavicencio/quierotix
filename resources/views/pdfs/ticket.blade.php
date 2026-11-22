@@ -129,11 +129,14 @@
         <div class="info-table" style="text-align: center;">
             <table cellpadding="0" cellspacing="0" width="90%" align="center">
                <tr>
-                    <td width="100%" style="text-align: center; font-size: 48px;">{{ $ticket->numero }}</td>
+                    <td width="100%" style="text-align: center; font-size: 56px;">{{ $ticket->numero }}</td>
                 </tr>
                 <tr>
                     <td width="100%" style="text-align: center;">{{ $ticket->download_label }}</td>
-                </tr>             
+                </tr>
+                <tr>
+                    <td width="100%" style="text-align: center; font-size: 20px;font-weight: normal;">www.quierotix.com</td>
+                </tr>    
             </table>
         </div>
 
