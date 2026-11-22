@@ -16,7 +16,7 @@
             </ol>
         </nav>
 
-        <section class="detail-hero mb-4">
+        <section class="detail-hero mb-4 d-none d-md-block">
             @php
                 $heroImage = $event->imagen_cover_url ?: $event->imagen_url;
             @endphp
@@ -40,7 +40,7 @@
         </section>
 
         <div class="row g-4">
-            <div class="col-lg-7">
+            <div class="col-lg-7 order-2 order-md-1">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4 p-md-5">
                         <h1 class="h4 fw-semibold mb-1">Compra tus tickets</h1>
@@ -235,7 +235,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-5">
+            <div class="col-lg-5 order-1 order-md-2">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
                         @if ($event->imagen_url)

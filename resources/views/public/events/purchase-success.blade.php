@@ -82,8 +82,12 @@
             <div class="col-lg-5">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
-                        <h2 class="h6 text-uppercase text-muted fw-semibold mb-3">Resumen de la compra</h2>
+                        <h2 class="h6 text-muted fw-semibold mb-3">Resumen de la compra</h2>
                         <dl class="row small mb-0">
+
+                            <dt class="col-5 mb-0">Tickets</dt>
+                            <dd class="col-7 mb-0">{{ $participant->tickets->count() }}</dd>
+
                             <dt class="col-5">Nombre</dt>
                             <dd class="col-7">{{ $participant->full_name }}</dd>
 
@@ -107,9 +111,6 @@
 
                             <dt class="col-5">Lugar</dt>
                             <dd class="col-7">{{ $event->lugar ?: 'Por confirmar' }}</dd>
-
-                            <dt class="col-5 mb-0">Tickets</dt>
-                            <dd class="col-7 mb-0">{{ $participant->tickets->count() }}</dd>
                         </dl>
                     </div>
                 </div>
