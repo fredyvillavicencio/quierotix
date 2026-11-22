@@ -27,20 +27,10 @@
                     {{ $participant->tickets->count() === 1 ? 'ticket' : 'tickets' }}
                     para {{ $participant->full_name }}.
                 </p>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-lg-7">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="h5 fw-semibold mb-1">Descarga tus Tickets</h2>
-
-
                         @if ($participant->email_sent)
                             <div class="alert alert-success small mt-4 mb-0">
                                 <i class="bi bi-envelope-check me-1"></i>
-                                Enviamos una copia de tus tickets a {{ $participant->email }}.
+                                Enviamos una copia de tus tickets a {{ $participant->email }}. Si no lo ves en tu bandeja de entrada en unos minutos, revisa la carpeta de spam o correo no deseado.
                             </div>
                         @else
                             <div class="alert alert-warning small mt-4 mb-2">
@@ -49,12 +39,14 @@
                                 Descárgalos desde esta página.
                             </div>
                         @endif
+            </div>
+        </div>
 
-                        <!--
-                        <p class="text-muted small mt-1 mb-3">
-                            NO compartas tus tickets ya son UNICAS se validada 1 vez por evento.
-                        </p>
-                        -->
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="h5 fw-semibold mb-1">Descarga tus Tickets</h2>
 
                         @forelse ($participant->tickets as $index => $ticket)
                             <div class="ticket-row border-0 d-flex flex-wrap justify-content-between align-items-center gap-2" style="padding: .425rem 0;">
@@ -88,17 +80,6 @@
                             <dt class="col-5 mb-0">Tickets</dt>
                             <dd class="col-7 mb-0">{{ $participant->tickets->count() }}</dd>
 
-                            <dt class="col-5">Nombre</dt>
-                            <dd class="col-7">{{ $participant->full_name }}</dd>
-
-                            <dt class="col-5">Correo</dt>
-                            <dd class="col-7 text-break">{{ $participant->email }}</dd>
-
-                            @if ($participant->carne)
-                                <dt class="col-5">ID</dt>
-                                <dd class="col-7">{{ $participant->carne }}</dd>
-                            @endif
-
                             <dt class="col-5">Evento</dt>
                             <dd class="col-7">{{ $event->nombre }}</dd>
 
@@ -111,6 +92,24 @@
 
                             <dt class="col-5">Lugar</dt>
                             <dd class="col-7">{{ $event->lugar ?: 'Por confirmar' }}</dd>
+
+                             <dt class="col-5">&nbps;</dt>
+                            <dd class="col-7">&nbps;</dd>                           
+
+                            <dt class="col-5">Nombre</dt>
+                            <dd class="col-7">{{ $participant->full_name }}</dd>
+
+                            <dt class="col-5">Correo</dt>
+                            <dd class="col-7 text-break">{{ $participant->email }}</dd>
+
+                            @if ($participant->carne)
+                                <dt class="col-5">DPI</dt>
+                                <dd class="col-7">{{ $participant->carne }}</dd>
+                            @endif
+
+                            <dt class="col-5">Teléfono</dt>
+                            <dd class="col-7 text-break">{{ $participant->telefono }}</dd>
+
                         </dl>
                     </div>
                 </div>

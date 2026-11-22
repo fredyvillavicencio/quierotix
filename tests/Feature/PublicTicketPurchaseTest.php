@@ -147,7 +147,10 @@ class PublicTicketPurchaseTest extends TestCase
             ->assertSee('for="telefono"', false)
             ->assertSee('Teléfono', false)
             ->assertSee('name="cantidad"', false)
-            ->assertSee('value="7"', false);
+            ->assertSee('value="7"', false)
+            ->assertSee('id="purchase-form"', false)
+            ->assertSee('id="purchase-submit"', false)
+            ->assertSee('Procesando...', false);
     }
 
     public function test_purchase_page_shows_cover_image_only_on_mobile(): void

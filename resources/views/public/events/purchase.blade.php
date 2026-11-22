@@ -84,7 +84,7 @@
                                 $total = $unitPrice * $selectedQuantity;
                             @endphp
 
-                            <form method="POST" action="{{ route('events.public.purchase.store', $event) }}">
+                            <form id="purchase-form" method="POST" action="{{ route('events.public.purchase.store', $event) }}">
                                 @csrf
 
                                 <div class="row g-3 mb-2">
@@ -226,8 +226,15 @@
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-brand btn-lg w-100 py-3 fw-semibold">
-                                    <i class="bi bi-ticket-perforated-fill me-2"></i>Confirmar compra
+                                <button type="submit"
+                                        id="purchase-submit"
+                                        class="btn btn-brand btn-lg w-100 py-3 fw-semibold">
+                                    <span id="purchase-submit-spinner"
+                                          class="spinner-border spinner-border-sm me-2 d-none"
+                                          role="status"
+                                          aria-hidden="true"></span>
+                                    <i id="purchase-submit-icon" class="bi bi-ticket-perforated-fill me-2"></i>
+                                    <span id="purchase-submit-label">Confirmar compra</span>
                                 </button>
                             </form>
                         @endif
@@ -271,12 +278,6 @@
                                 </li>
                             @endif
 
-                            <!--
-                            <li>
-                                <i class="bi bi-ticket-perforated me-2 text-brand"></i>
-                                {{ number_format($availableSeats) }} {{ $availableSeats === 1 ? 'ticket disponible' : 'tickets disponibles' }}
-                            </li>
--->
                         </ul>
                     </div>
                 </div>
@@ -290,6 +291,47 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const purchaseForm = document.getElementById('purchase-form');
+            const submitButton = document.getElementById('purchase-submit');
+            const submitSpinner = document.getElementById('purchase-submit-spinner');
+            const submitIcon = document.getElementById('purchase-submit-icon');
+            const submitLabel = document.getElementById('purchase-submit-label');
+            const defaultSubmitLabel = submitLabel?.textContent ?? 'Confirmar compra';
+            let submitting = false;
+
+            const setSubmitting = (isSubmitting) => {
+                if (!submitButton) {
+                    return;
+                }
+
+                submitting = isSubmitting;
+                submitButton.disabled = isSubmitting;
+                submitButton.setAttribute('aria-busy', isSubmitting ? 'true' : 'false');
+                submitSpinner?.classList.toggle('d-none', !isSubmitting);
+                submitIcon?.classList.toggle('d-none', isSubmitting);
+
+                if (submitLabel) {
+                    submitLabel.textContent = isSubmitting ? 'Procesando...' : defaultSubmitLabel;
+                }
+            };
+
+            if (purchaseForm && submitButton) {
+                purchaseForm.addEventListener('submit', function (event) {
+                    if (submitting) {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    setSubmitting(true);
+                });
+
+                window.addEventListener('pageshow', function (event) {
+                    if (event.persisted) {
+                        setSubmitting(false);
+                    }
+                });
+            }
+
             const locationSelect = document.getElementById('locacion');
             const quantitySelect = document.getElementById('cantidad');
             const totalElement = document.getElementById('purchase-total');
