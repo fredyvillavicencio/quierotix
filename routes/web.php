@@ -102,9 +102,6 @@ Route::get('/admin/participants/find-by-email', [ParticipantController::class, '
 Route::get('/admin/participants/{participant}/preview-email', [ParticipantController::class, 'previewEmail'])
     ->name('participants.preview.email');
 
-Route::get('/admin/participants/{participant}/preview-email-fotografo', [ParticipantController::class, 'previewEmailFotografo'])
-    ->name('participants.preview.email.fotografo');
-
 // Rutas de administración (requieren autenticación y ser admin)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard de administración

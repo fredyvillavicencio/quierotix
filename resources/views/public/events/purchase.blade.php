@@ -68,8 +68,8 @@
                                 </h2>
                                 <p class="mb-0 small">No hay tickets disponibles por el momento.</p>
                             </div>
-                            <a href="{{ route('events.public.show', $event) }}" class="btn btn-outline-secondary mt-4">
-                                <i class="bi bi-arrow-left me-1"></i>Volver al evento
+                            <a href="{{ url('/') }}" class="btn btn-outline-secondary mt-4">
+                                <i class="bi bi-arrow-left me-1"></i>Volver al eventos
                             </a>
                         @else
                             @php
